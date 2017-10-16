@@ -62,6 +62,7 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
+        Log.i("git", "can you see this?");
     }
 
     @Override
