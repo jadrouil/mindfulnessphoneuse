@@ -1,6 +1,7 @@
 package com.example.jerm.mindfulnessphoneuse;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -22,8 +23,7 @@ import android.widget.ProgressBar;
 
 public class GappScreen extends ExecutableActivity {
 
-    private View mContentView;
-    private View mControlsView;
+
     private ProgressBarAnimation mExpireAnimation;
 
     // This snippet hides the system bars.
@@ -49,11 +49,9 @@ public class GappScreen extends ExecutableActivity {
         setContentView(R.layout.activity_gapp_screen);
         hideSystemUI();
 
-        int mLifetimeInMS = 5000;
+        int mLifetimeInMS = 7000;
         mInterval = 500;
 
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
         mProgressBar = (ProgressBar) findViewById(R.id.timeToExecutionBar);
         mProgressBar.setMax(mLifetimeInMS);
 
@@ -62,7 +60,8 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
-        Log.i("git", "can you see this?");
+        Intent intent = new Intent(this, AutoStartService.class);
+        startService(intent);
     }
 
     @Override
