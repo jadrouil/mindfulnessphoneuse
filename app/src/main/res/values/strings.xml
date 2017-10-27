@@ -3,4 +3,6 @@
 
     <string name="exit_button">Exit</string>
     <string name="mindful_prompt">Why did you open your phone?</string>
+    <string name="notification_title">Change settings</string>
+    <string name="notification_content">This is necessary to detect when you turn on your phone!</string>
 </resources>

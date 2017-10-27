@@ -60,6 +60,8 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
+
+
         Intent intent = new Intent(this, AutoStartService.class);
         startService(intent);
     }
