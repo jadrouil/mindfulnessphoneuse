@@ -8,7 +8,6 @@ import android.support.v4.app.NotificationCompat;
 import android.app.Notification;
 
 
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by jerm on 10/17/17.
@@ -16,7 +15,6 @@ import java.util.concurrent.Semaphore;
 
 public class AutoStartService extends IntentService {
     private static int FOREGROUND_ID = 734;
-
 
 
     public  AutoStartService(){
@@ -27,16 +25,16 @@ public class AutoStartService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         startForeground(FOREGROUND_ID, buildForegroundNotification("foregroundnotif"));
+        Log.d("service", "starting");
 
         while (true) {
-
             OurReceivers.StartReceiver auto_starter = new OurReceivers.StartReceiver();
-            IntentFilter intent_filter2 = new IntentFilter("android.intent.action.SCREEN_ON");
-            intent_filter2.addAction("android.intent.action.USER_PRESENT");
+            IntentFilter intent_filter2 = new IntentFilter("android.intent.action.SCREEN_OFF");
             registerReceiver(auto_starter, intent_filter2);
             auto_starter.wait_until_finished();
+            unregisterReceiver(auto_starter);
 
-            stopForeground(false);
+//            stopForeground(false);
         }
     }
 

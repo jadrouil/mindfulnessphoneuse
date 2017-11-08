@@ -15,6 +15,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
@@ -25,7 +27,6 @@ public class GappScreen extends ExecutableActivity {
 
 
     private ProgressBarAnimation mExpireAnimation;
-
     // This snippet hides the system bars.
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
@@ -56,10 +57,8 @@ public class GappScreen extends ExecutableActivity {
         mProgressBar.setMax(mLifetimeInMS);
 
 
-
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
-
 
 
         Intent intent = new Intent(this, AutoStartService.class);

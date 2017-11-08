@@ -5,4 +5,5 @@
     <string name="mindful_prompt">Why did you open your phone?</string>
     <string name="notification_title">Change settings</string>
     <string name="notification_content">This is necessary to detect when you turn on your phone!</string>
+    <string name="launched_from_service">This is used to detect if the screen was launched for the same time</string>
 </resources>

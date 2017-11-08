@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.util.Log;
 
 import java.util.concurrent.Semaphore;
+
 
 /**
  * Created by jerm on 10/25/17.
@@ -15,12 +17,13 @@ import java.util.concurrent.Semaphore;
 public class OurReceivers {
 
     public static class StartReceiver extends BroadcastReceiver {
-        private Semaphore lock;
+        private Semaphore finished;
 
         StartReceiver() {
-            lock = new Semaphore(1);
-            //this will never block
-            lock.acquireUninterruptibly();
+            //when this is acquirable the receiver is done
+            finished = new Semaphore(1);
+            finished.acquireUninterruptibly();
+
         }
 
 
@@ -29,12 +32,13 @@ public class OurReceivers {
             Log.d("bcast", "attempting to start activity");
             Intent start_intent = new Intent(context, GappScreen.class);
             context.startActivity(start_intent);
+            finished.release();
         }
 
         public void wait_until_finished() {
             //this lock will never be acquired since the receiver never lets go
-            OurReceivers.betterAcquire(lock);
-            lock.release();
+            OurReceivers.betterAcquire(finished);
+            finished.release();
         }
 
     }
