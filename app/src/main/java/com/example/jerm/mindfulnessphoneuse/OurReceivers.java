@@ -30,6 +30,7 @@ public class OurReceivers {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("bcast", "attempting to start activity");
+
             Intent start_intent = new Intent(context, GappScreen.class);
             context.startActivity(start_intent);
             finished.release();

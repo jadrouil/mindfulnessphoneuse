@@ -1,10 +1,14 @@
 package com.example.jerm.mindfulnessphoneuse;
 
 import android.animation.ObjectAnimator;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +18,8 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
+import android.app.Notification;
+
 
 import java.util.concurrent.Semaphore;
 
@@ -24,7 +30,6 @@ import java.util.concurrent.Semaphore;
 
 
 public class GappScreen extends ExecutableActivity {
-
 
     private ProgressBarAnimation mExpireAnimation;
     // This snippet hides the system bars.
@@ -61,9 +66,11 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation.setDuration(mLifetimeInMS);
 
 
-        Intent intent = new Intent(this, AutoStartService.class);
-        startService(intent);
     }
+
+
+
+
 
     @Override
     protected void onPause(){
@@ -74,6 +81,7 @@ public class GappScreen extends ExecutableActivity {
     @Override
     protected void onResume(){
         super.onResume();
+
         mProgressBar.startAnimation(mExpireAnimation);
     }
 
