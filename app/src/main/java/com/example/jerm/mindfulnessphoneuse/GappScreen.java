@@ -65,7 +65,16 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
-
+        Log.d("background", "starting intent");
+        Log.d("here","e");
+        Intent intent = new Intent(this, AutoStartService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        }
+        else {
+            startService(intent);
+            Log.d("what is going on", "?");
+        }
     }
 
 
