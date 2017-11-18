@@ -31,6 +31,7 @@ import java.util.concurrent.Semaphore;
 
 public class GappScreen extends ExecutableActivity {
 
+    private static Boolean runningInBackground = false;
     private ProgressBarAnimation mExpireAnimation;
     // This snippet hides the system bars.
     private void hideSystemUI() {
@@ -65,16 +66,7 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
-        Log.d("background", "starting intent");
-        Log.d("here","e");
-        Intent intent = new Intent(this, AutoStartService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        }
-        else {
-            startService(intent);
-            Log.d("what is going on", "?");
-        }
+        launchForegroundService();
     }
 
 
@@ -133,6 +125,22 @@ public class GappScreen extends ExecutableActivity {
 
     }
 
+    private void launchForegroundService(){
+        if (runningInBackground){
+            return;
+        }
+        runningInBackground = true;
+        Log.d("background", "starting intent");
+        Log.d("here","e");
+        Intent intent = new Intent(this, AutoStartService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        }
+        else {
+            startService(intent);
+            Log.d("what is going on", "?");
+        }
+    }
 
 }
 
