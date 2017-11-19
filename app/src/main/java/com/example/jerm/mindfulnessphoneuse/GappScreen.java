@@ -3,6 +3,7 @@ package com.example.jerm.mindfulnessphoneuse;
 import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -66,7 +67,7 @@ public class GappScreen extends ExecutableActivity {
         mExpireAnimation = new ProgressBarAnimation(mProgressBar, 0, mLifetimeInMS);
         mExpireAnimation.setDuration(mLifetimeInMS);
 
-        launchForegroundService();
+        launchForegroundService(this);
     }
 
 
@@ -82,6 +83,7 @@ public class GappScreen extends ExecutableActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        hideSystemUI();
 
         mProgressBar.startAnimation(mExpireAnimation);
     }
@@ -125,20 +127,19 @@ public class GappScreen extends ExecutableActivity {
 
     }
 
-    private void launchForegroundService(){
+    public static void launchForegroundService(Context context){
         if (runningInBackground){
             return;
         }
         runningInBackground = true;
         Log.d("background", "starting intent");
         Log.d("here","e");
-        Intent intent = new Intent(this, AutoStartService.class);
+        Intent intent = new Intent(context, AutoStartService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
+            context.startForegroundService(intent);
         }
         else {
-            startService(intent);
-            Log.d("what is going on", "?");
+            context.startService(intent);
         }
     }
 
