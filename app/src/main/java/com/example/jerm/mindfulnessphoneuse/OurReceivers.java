@@ -19,7 +19,6 @@ public class OurReceivers {
     public static class BootReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent){
-            //TODO: launch the foreground service
             GappScreen.launchForegroundService(context);
         }
 
