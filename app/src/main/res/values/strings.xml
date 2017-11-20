@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MindfulnessPhoneUse</string>
+    <string name="app_name">Reflect</string>
 
     <string name="exit_button">Exit</string>
     <string name="mindful_prompt">Why did you open your phone?</string>

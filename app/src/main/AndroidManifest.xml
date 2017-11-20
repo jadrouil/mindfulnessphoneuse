@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jerm.mindfulnessphoneuse"
     android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+    <uses-sdk android:minSdkVersion="21"/>
+
 
     <application
         android:allowBackup="true"
@@ -41,7 +43,7 @@
 
          <activity
          android:name=".MainCustomizeActivity"
-         android:label="@string/title_activity_main_customize"
+         android:label="@string/app_name"
          android:theme="@style/AppTheme.NoActionBar">
          <intent-filter>
          <action android:name="android.intent.action.MAIN" />

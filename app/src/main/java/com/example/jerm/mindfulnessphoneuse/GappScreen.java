@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.app.Notification;
+import android.widget.TextView;
 
 
 import java.util.concurrent.Semaphore;
@@ -32,8 +34,15 @@ import java.util.concurrent.Semaphore;
 
 public class GappScreen extends ExecutableActivity {
 
+    private static Boolean outstandingChanges = false;
     private static Boolean runningInBackground = false;
+    private static Boolean check_for_old_preferences = true;
+    private static Boolean mEnabled = false;
     private ProgressBarAnimation mExpireAnimation;
+    private static int mLifetimeInMS;
+    private static String mMindfulPrompt;
+    private static String my_prefs_file = "REFLECTPREFS";
+
     // This snippet hides the system bars.
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
@@ -55,10 +64,19 @@ public class GappScreen extends ExecutableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gapp_screen);
+        updatePreferences();
+        fetchPreferences();
         hideSystemUI();
 
-        int mLifetimeInMS = 7000;
         mInterval = 500;
+
+        TextView mindfulPrompt = (TextView) findViewById(R.id.tv_mp);
+        if (mMindfulPrompt.isEmpty()){
+            mindfulPrompt.setText(R.string.mindful_prompt);
+        }
+        else{
+            mindfulPrompt.setText(mMindfulPrompt);
+        }
 
         mProgressBar = (ProgressBar) findViewById(R.id.timeToExecutionBar);
         mProgressBar.setMax(mLifetimeInMS);
@@ -128,7 +146,7 @@ public class GappScreen extends ExecutableActivity {
     }
 
     public static void launchForegroundService(Context context){
-        if (runningInBackground){
+        if (runningInBackground || !mEnabled){
             return;
         }
         runningInBackground = true;
@@ -143,5 +161,44 @@ public class GappScreen extends ExecutableActivity {
         }
     }
 
+    public static void stopForegroundService(){
+        if (!runningInBackground)
+            return;
+        runningInBackground = false;
+        AutoStartService.stop();
+    }
+
+    private void updatePreferences(){
+        if (outstandingChanges){
+            SharedPreferences settings = getSharedPreferences(my_prefs_file, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putInt("sleepTime", mLifetimeInMS);
+            editor.putString("mindfulString", mMindfulPrompt);
+            editor.putBoolean("enabled", true);
+            editor.commit();
+        }
+    }
+
+    private void fetchPreferences(){
+        if (check_for_old_preferences) {
+            SharedPreferences settings = getSharedPreferences(my_prefs_file, 0);
+            mLifetimeInMS = settings.getInt("sleepTime", 4);
+            mMindfulPrompt = settings.getString("mindfulString", getString(R.string.mindful_prompt));
+            mEnabled = settings.getBoolean("enabled", false);
+        }
+    }
+
+    public static void updateTime(int newTime){
+        mLifetimeInMS = newTime * 1000;
+        outstandingChanges = true;
+        mEnabled = true;
+
+    }
+
+    public static void updateMessage(String prompt){
+        mMindfulPrompt = prompt;
+        outstandingChanges = true;
+        mEnabled = true;
+    }
 }
 

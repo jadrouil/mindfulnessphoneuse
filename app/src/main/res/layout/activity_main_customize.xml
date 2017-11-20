@@ -78,20 +78,24 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:weightSum="2">
+
             <Button
+            android:id="@+id/disable_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:text="Disable"
             android:textColor="@color/red"
             android:layout_weight="1"/>
+
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
-                android:text="Enable/Update"
-                android:textColor="@color/red"
-                android:layout_weight="1"/>
+            android:id="@+id/enable_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="Enable/Update"
+            android:textColor="@color/green"
+            android:layout_weight="1"/>
 
         </LinearLayout>
 

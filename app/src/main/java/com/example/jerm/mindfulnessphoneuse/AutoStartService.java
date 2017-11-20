@@ -20,10 +20,13 @@ import java.util.concurrent.Semaphore;
 
 public class AutoStartService extends IntentService {
     private static int FOREGROUND_ID = 734;
+    private static boolean letLive;
 
     private static OurReceivers.StartReceiver auto_starter;
     public  AutoStartService(){
         super("mindfulness-auto-start-service");
+        letLive = true;
+
 
     }
 
@@ -73,15 +76,22 @@ public class AutoStartService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
         Log.d("notif", "handling the intent");
-        while (true) {
+        while (letLive) {
             auto_starter = new OurReceivers.StartReceiver();
             IntentFilter intent_filter2 = new IntentFilter("android.intent.action.SCREEN_OFF");
             registerReceiver(auto_starter, intent_filter2);
             auto_starter.wait_until_finished();
-
             unregisterReceiver(auto_starter);
+
+
         }
+    }
+
+    public static void stop() {
+        letLive = false;
+        auto_starter.stop();
     }
 
 

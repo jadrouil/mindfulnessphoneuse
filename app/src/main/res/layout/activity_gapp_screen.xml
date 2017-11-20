@@ -10,12 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/tv_mp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/timeToExecutionBar"
             android:gravity="center_horizontal"
-            android:text="@string/mindful_prompt"
+            android:text=""
             android:textColor="@color/colorAccent"
             android:textSize="23dp"
             android:fontFamily="monospace"/>

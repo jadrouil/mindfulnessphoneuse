@@ -27,12 +27,12 @@ public class OurReceivers {
 
     public static class StartReceiver extends BroadcastReceiver {
         private Semaphore finished;
-
+        private Boolean stopRequested;
         StartReceiver() {
             //when this is acquirable the receiver is done
+            stopRequested = false;
             finished = new Semaphore(1);
             finished.acquireUninterruptibly();
-
         }
 
 
@@ -40,8 +40,10 @@ public class OurReceivers {
         public void onReceive(Context context, Intent intent) {
             Log.d("bcast", "attempting to start activity");
 
-            Intent start_intent = new Intent(context, GappScreen.class);
-            context.startActivity(start_intent);
+            if (!stopRequested) {
+                Intent start_intent = new Intent(context, GappScreen.class);
+                context.startActivity(start_intent);
+            }
             finished.release();
         }
 
@@ -51,6 +53,9 @@ public class OurReceivers {
             finished.release();
         }
 
+        public void stop(){
+            stopRequested = true;
+        }
     }
 
     public static void betterAcquire(Semaphore lock){
@@ -60,4 +65,6 @@ public class OurReceivers {
             System.out.println("got interrupted!");
         }
     }
+
+
 }
