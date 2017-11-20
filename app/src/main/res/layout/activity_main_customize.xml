@@ -6,28 +6,63 @@
     android:layout_height="match_parent"
     tools:context="com.example.jerm.mindfulnessphoneuse.MainCustomizeActivity">
 
-    <android.support.design.widget.AppBarLayout
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <Toolbar
+            android:id="@+id/welcome_banner"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="wrap_content"
+            android:logo="@mipmap/ic_launcher"
+            android:background="@color/colorPrimary"
+            android:title="Welcome to Reflect!"
+            android:titleMarginStart="24dp"
+            android:titleTextColor="@color/colorAccent"
+            android:subtitle="Configure Reflect Here"
+            android:subtitleTextColor="@color/colorAccent"></Toolbar>
+        <TextView
+            android:id="@+id/reflect_prompt_descriptor"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Prompt:"
+            android:textSize="23sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/welcome_banner"
+            />
 
-    </android.support.design.widget.AppBarLayout>
+        <EditText
+            android:id="@+id/reflect_prompt_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="12dp"
+            android:hint="@string/mindful_prompt"
+            android:textColorHint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryDark"
+            android:inputType="text"
+            android:textSize="23sp"
+            android:layout_below="@id/reflect_prompt_descriptor"/>
+
+        <TextView
+            android:id="@+id/time_descriptor"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reflect Time:"
+            android:textSize="23sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/reflect_prompt_edit"
+            />
+
+
+    </RelativeLayout>
 
     <include layout="@layout/content_main_customize" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </android.support.design.widget.CoordinatorLayout>
