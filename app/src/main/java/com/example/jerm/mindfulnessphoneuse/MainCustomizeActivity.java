@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 public class MainCustomizeActivity extends AppCompatActivity {
 
@@ -16,6 +17,11 @@ public class MainCustomizeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_customize);
+        NumberPicker np = (NumberPicker) findViewById(R.id.edit_time);
+
+        np.setMinValue(0);
+        np.setMaxValue(10);
+        np.setValue(7);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(getString(R.string.customize_title));

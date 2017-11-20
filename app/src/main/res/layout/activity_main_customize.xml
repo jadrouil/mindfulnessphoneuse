@@ -9,9 +9,11 @@
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/full_rel_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:background="@color/colorAccent">
         <Toolbar
             android:id="@+id/welcome_banner"
             android:layout_width="match_parent"
@@ -54,11 +56,46 @@
             android:layout_marginLeft="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reflect Time:"
+            android:text="Reflect seconds:"
             android:textSize="23sp"
             android:textColor="@color/colorPrimary"
             android:layout_below="@id/reflect_prompt_edit"
             />
+
+        <NumberPicker
+            android:id="@+id/edit_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/time_descriptor"
+            android:scaleX=".5"
+            android:textSize="23sp"
+            android:solidColor="@color/colorAccent"
+            ></NumberPicker>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:weightSum="2">
+            <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="Disable"
+            android:textColor="@color/red"
+            android:layout_weight="1"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:text="Enable/Update"
+                android:textColor="@color/red"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
 
 
     </RelativeLayout>
