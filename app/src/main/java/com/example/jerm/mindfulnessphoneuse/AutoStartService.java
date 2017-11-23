@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.os.Build;
-import android.util.Log;
 import android.support.v4.app.NotificationCompat;
 import android.app.Notification;
 
@@ -34,7 +33,6 @@ public class AutoStartService extends IntentService {
     public void onCreate() {
 
         super.onCreate();
-        Log.d("notif", "oncreate");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel mChannel =
                     new NotificationChannel(
@@ -54,12 +52,10 @@ public class AutoStartService extends IntentService {
 
             Notification notification = builder.build();
 
-            Log.d("notif", "starting the notification");
             startForeground(1, notification);
 
 
         } else {
-            Log.d("notif", "starting the notification else");
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                     .setContentTitle(getString(R.string.app_name))
@@ -77,7 +73,6 @@ public class AutoStartService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.d("notif", "handling the intent");
         while (letLive) {
             auto_starter = new OurReceivers.StartReceiver();
             IntentFilter intent_filter2 = new IntentFilter("android.intent.action.SCREEN_OFF");

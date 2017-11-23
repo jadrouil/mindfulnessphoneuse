@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -63,6 +62,7 @@ public class MainCustomizeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GappScreen.stopForegroundService();
+                GappScreen.disable(getApplicationContext());
             }
         });
         setUpOnTouchButton(disableButton);
@@ -76,8 +76,8 @@ public class MainCustomizeActivity extends AppCompatActivity {
         enableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GappScreen.updateTime(mNumberPicker.getValue());
-                GappScreen.updateMessage(mEditText.getText().toString());
+                GappScreen.updateTime(mNumberPicker.getValue(), getApplicationContext());
+                GappScreen.updateMessage(mEditText.getText().toString(), getApplicationContext());
                 GappScreen.launchForegroundService(getApplicationContext());
             }
         });

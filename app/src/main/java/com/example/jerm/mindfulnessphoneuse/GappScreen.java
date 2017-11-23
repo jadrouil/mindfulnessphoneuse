@@ -13,7 +13,6 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -34,7 +33,6 @@ import java.util.concurrent.Semaphore;
 
 public class GappScreen extends ExecutableActivity {
 
-    private static Boolean outstandingChanges = false;
     private static Boolean runningInBackground = false;
     private static Boolean check_for_old_preferences = true;
     private static Boolean mEnabled = false;
@@ -64,8 +62,7 @@ public class GappScreen extends ExecutableActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gapp_screen);
-        updatePreferences();
-        fetchPreferences();
+        fetchPreferences(this);
         hideSystemUI();
 
         mInterval = 500;
@@ -146,12 +143,12 @@ public class GappScreen extends ExecutableActivity {
     }
 
     public static void launchForegroundService(Context context){
+        fetchPreferences(context);
         if (runningInBackground || !mEnabled){
             return;
         }
         runningInBackground = true;
-        Log.d("background", "starting intent");
-        Log.d("here","e");
+
         Intent intent = new Intent(context, AutoStartService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
@@ -168,37 +165,40 @@ public class GappScreen extends ExecutableActivity {
         AutoStartService.stop();
     }
 
-    private void updatePreferences(){
-        if (outstandingChanges){
-            SharedPreferences settings = getSharedPreferences(my_prefs_file, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("sleepTime", mLifetimeInMS);
-            editor.putString("mindfulString", mMindfulPrompt);
-            editor.putBoolean("enabled", true);
-            editor.commit();
-        }
+    public static void disable(Context context){
+        mEnabled = false;
+        updatePreferences(context);
     }
 
-    private void fetchPreferences(){
+    private static void updatePreferences(Context context){
+        SharedPreferences settings = context.getSharedPreferences(my_prefs_file, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("sleepTime", mLifetimeInMS);
+        editor.putString("mindfulString", mMindfulPrompt);
+        editor.putBoolean("enabled", mEnabled);
+        editor.commit();
+    }
+
+    private static void fetchPreferences(Context context){
         if (check_for_old_preferences) {
-            SharedPreferences settings = getSharedPreferences(my_prefs_file, 0);
+            SharedPreferences settings = context.getSharedPreferences(my_prefs_file, 0);
             mLifetimeInMS = settings.getInt("sleepTime", 4);
-            mMindfulPrompt = settings.getString("mindfulString", getString(R.string.mindful_prompt));
+            mMindfulPrompt = settings.getString("mindfulString", context.getString(R.string.mindful_prompt));
             mEnabled = settings.getBoolean("enabled", false);
         }
     }
 
-    public static void updateTime(int newTime){
+    public static void updateTime(int newTime, Context context){
         mLifetimeInMS = newTime * 1000;
-        outstandingChanges = true;
         mEnabled = true;
+        updatePreferences(context);
 
     }
 
-    public static void updateMessage(String prompt){
+    public static void updateMessage(String prompt, Context context){
         mMindfulPrompt = prompt;
-        outstandingChanges = true;
         mEnabled = true;
+        updatePreferences(context);
     }
 }
 

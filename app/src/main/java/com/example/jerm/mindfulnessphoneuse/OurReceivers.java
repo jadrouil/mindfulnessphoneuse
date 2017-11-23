@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.util.Log;
 
 import java.util.concurrent.Semaphore;
 
@@ -28,7 +27,7 @@ public class OurReceivers {
     public static class StartReceiver extends BroadcastReceiver {
         private Semaphore finished;
         private Boolean stopRequested;
-        StartReceiver() {
+        public StartReceiver() {
             //when this is acquirable the receiver is done
             stopRequested = false;
             finished = new Semaphore(1);
@@ -38,7 +37,6 @@ public class OurReceivers {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("bcast", "attempting to start activity");
 
             if (!stopRequested) {
                 Intent start_intent = new Intent(context, GappScreen.class);
